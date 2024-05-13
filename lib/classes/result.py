@@ -1,6 +1,3 @@
-from classes.player import Player
-from classes.game import Game
-
 class Result:
     all = []
 
@@ -9,13 +6,7 @@ class Result:
         self.game = game
         self.score = score
     
-        Result.all.append(self)
-        
-        self.player._results.append(self)
-        self.player._games_played.append(self.game)
-
-        self.game._results.append(self)
-        self.game._players.append(self.player)
+        self.__class__.all.append(self)
 
     @property
     def score(self):
@@ -34,6 +25,7 @@ class Result:
     
     @player.setter
     def player(self, value):
+        from classes.player import Player
         if isinstance(value, Player):
             self._player = value
         else:
@@ -45,6 +37,7 @@ class Result:
     
     @game.setter
     def game(self, value):
+        from classes.game import Game
         if isinstance(value, Game):
             self._game = value
         else:

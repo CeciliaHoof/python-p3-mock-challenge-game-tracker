@@ -1,10 +1,10 @@
 class Game:
+    all = []
 
     def __init__(self, title):
         self.title = title
 
-        self._results = []
-        self._players = []
+        self.__class__.all.append(self)
     
     @property
     def title(self):
@@ -18,7 +18,14 @@ class Game:
             raise Exception('Title must be a string and cannot be changed')
     
     def results(self):
-        return self._results
+        from classes.result import Result
+        return [result for result in Result.all if result.game == self]
     
     def players(self):
-        return list(set(self._players))
+        return list(set(result.player for result in self.results()))
+    
+    def average_score(self, player):
+        scores = [result.score for result in self.results() if result.player == player]
+        if scores:
+            return sum(scores) / len(scores)
+        return 0
