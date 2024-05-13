@@ -29,3 +29,14 @@ class Player:
     
     def num_times_played(self, game):
         return len([result for result in self.results() if result.game == game])
+    
+    @classmethod
+    def highest_scored(cls, game):
+        high_score = 0
+        high_player = None
+        for player in cls.all:
+            avg_score = game.average_score(player)
+            if avg_score > high_score:
+                high_score = avg_score
+                high_player = player
+        return high_player
